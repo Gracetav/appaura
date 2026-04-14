@@ -16,9 +16,16 @@
         }
 
         * {
+            box-sizing: border-box;
+        }
+
+        html, body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         body {
@@ -27,12 +34,10 @@
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             color: var(--text);
-            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px 0;
-            overflow: hidden;
+            padding: 50px 0;
             position: relative;
         }
 
