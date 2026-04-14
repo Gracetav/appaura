@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #ff85a2;
+            --accent-soft: #ffcad4;
+            --bg: #fff5f7;
+            --text: #4a4a4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #fff5f7, #ffe3e8, #fff0f3, #ffeef2);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Ambient floating hearts */
+        .ambient-heart {
+            position: absolute;
+            color: rgba(255, 133, 162, 0.1);
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatAmbient 10s linear infinite;
+        }
+
+        @keyframes floatAmbient {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Pulsing Corner Hearts */
+        .corner-heart {
+            position: fixed;
+            font-size: 2.5rem;
+            z-index: 10;
+            animation: pulseHeart 2s ease-in-out infinite;
+            filter: drop-shadow(0 5px 15px rgba(255, 133, 162, 0.4));
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.2); filter: brightness(1.2); }
+        }
+
+        .top-left { top: 20px; left: 20px; }
+        .top-right { top: 20px; right: 20px; }
+        .bottom-left { bottom: 20px; left: 20px; }
+        .bottom-right { bottom: 20px; right: 20px; }
+
+        @media (max-width: 600px) {
+            .corner-heart { font-size: 1.5rem; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            perspective: 1000px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 133, 162, 0.15);
+            text-align: center;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 5px 15px rgba(255, 133, 162, 0.3);
+            text-decoration: none;
+            min-width: 100px;
+            outline: none;
+        }
+
+        .btn:hover {
+            background-color: #ff6b8d;
+            transform: scale(1.05);
+        }
+
+        .btn-no {
+            background-color: #f0f0f0;
+            color: #888;
+            box-shadow: none;
+            position: relative;
+        }
+
+        /* Photobox Layout */
+        .photobox {
+            background: white;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            width: 200px;
+            transform: rotate(-2deg);
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+
+        .photo-item {
+            width: 100%;
+            height: 140px;
+            background: #eee;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photobox-footer {
+            margin-top: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.7rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .heart-icon {
+            color: var(--accent);
+            font-size: 4rem;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            z-index: 100;
+        }
+
+        #no-btn {
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Corner Hearts -->
+    <div class="corner-heart top-left">❤️</div>
+    <div class="corner-heart top-right">❤️</div>
+    <div class="corner-heart bottom-left">❤️</div>
+    <div class="corner-heart bottom-right">❤️</div>
+
+    <div class="container" id="main-container">
+        <div class="card">
+            <!-- Slide 1 -->
+            <div class="slide active" id="slide-1">
+                <span class="emoji">🥺</span>
+                <h2>maafin aku ya pls</h2>
+                <div class="btn-group">
+                    <button class="btn" onclick="nextSlide(2)">Iya</button>
+                    <button class="btn btn-no" id="no-btn">Enggak</button>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide" id="slide-2">
+                <span class="emoji">🧐</span>
+                <h2>serius di maafin?</h2>
+                <div class="btn-group">
+                    <button class="btn" onclick="nextSlide(3)">Iya beneran!</button>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide" id="slide-3">
+                <div class="heart-icon">❤️</div>
+                <h2>makasih udah maafin yaa!</h2>
+                <div class="btn-group">
+                    <button class="btn" onclick="nextSlide(4)">Lanjut</button>
+                </div>
+            </div>
+
+            <!-- Slide 4: Photobox Slide 1 -->
+            <div class="slide" id="slide-4">
+                <div class="photobox">
+                    <div class="photo-item"><img src="public/foto1.jpg" alt="Foto 1"></div>
+                    <div class="photo-item"><img src="public/foto2.jpg" alt="Foto 2"></div>
+                    <div class="photo-item"><img src="public/foto3.jpg" alt="Foto 3"></div>
+                    <div class="photo-item"><img src="public/foto4.jpg" alt="Foto 4"></div>
+                    <div class="photobox-footer">PRINCES CANTIK KATA PAPA</div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn" onclick="nextSlide(5)">ada lagi</button>
+                </div>
+            </div>
+
+            <!-- Slide 5: Photobox Slide 2 -->
+            <div class="slide" id="slide-5">
+                <div class="photobox" style="transform: rotate(2deg);">
+                    <div class="photo-item"><img src="public/foto5.jpg" alt="Foto 5"></div>
+                    <div class="photo-item"><img src="public/foto6.jpg" alt="Foto 6"></div>
+                    <div class="photo-item"><img src="public/foto7.jpg" alt="Foto 7"></div>
+                    <div class="photo-item"><img src="public/foto8.jpg" alt="Foto 8"></div>
+                    <div class="photobox-footer">PRINCES CANTIK KATA PAPA</div>
+                </div>
+                <p style="font-size: 1rem; color: var(--text); margin-top: 10px; font-weight: 300;">ak tunggu pap 10x nya ya 😋</p>
+                <div class="btn-group">
+                    <button class="btn" onclick="nextSlide(6)">Selesai</button>
+                </div>
+            </div>
+
+            <!-- Slide 6: Final Credit -->
+            <div class="slide" id="slide-6">
+                <span class="emoji">✨</span>
+                <h2 style="font-weight: 300; font-size: 1.2rem;">made with love </h2>
+                <h2 style="font-weight: 300; font-size: 1.2rem;">by </h2>
+                <h1 style="font-size: 1.8rem; color: var(--accent);">Afrizal D.H</h1>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+
+        function nextSlide(n) {
+            document.getElementById(`slide-${currentSlide}`).classList.remove('active');
+            
+            const card = document.querySelector('.card');
+            card.style.transform = 'scale(0.95) rotateY(10deg)';
+            
+            setTimeout(() => {
+                currentSlide = n;
+                document.getElementById(`slide-${currentSlide}`).classList.add('active');
+                card.style.transform = 'scale(1) rotateY(0)';
+                
+                if(n === 3) {
+                    createConfetti();
+                }
+            }, 300);
+        }
+
+        const noBtn = document.getElementById('no-btn');
+        if(noBtn) {
+            noBtn.addEventListener('mouseover', () => {
+                const x = Math.random() * 200 - 100;
+                const y = Math.random() * 200 - 100;
+                noBtn.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 40; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.backgroundColor = ['#ff85a2', '#ffcad4', '#ffb3c1', '#fb6f92'][Math.floor(Math.random() * 4)];
+                
+                document.body.appendChild(confetti);
+
+                confetti.animate([
+                    { transform: `translate3d(0, 0, 0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate3d(${(Math.random() - 0.5) * 300}px, ${window.innerHeight}px, 0) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 2000 + 1000,
+                    easing: 'cubic-bezier(0, .9, .57, 1)'
+                }).onfinish = () => confetti.remove();
+            }
+        }
+
+        // Add ambient hearts to background for aesthetics
+        function initAmbientHearts() {
+            const container = document.body;
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'ambient-heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                heart.style.animationDelay = (Math.random() * 10) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                container.appendChild(heart);
+            }
+        }
+
+        window.addEventListener('load', () => {
+            initAmbientHearts();
+        });
+    </script>
+</body>
+</html>
